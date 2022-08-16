@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
 //        addMenuProvider(object: MenuProvider {
 //            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
 //                menuInflater.inflate(R.menu.custom_menu, menu)
