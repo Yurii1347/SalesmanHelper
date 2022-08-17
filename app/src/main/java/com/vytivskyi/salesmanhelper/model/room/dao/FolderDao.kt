@@ -33,6 +33,6 @@ interface FolderDao {
     suspend fun updateProduct(product: Product)
 
     @Transaction
-    @Query("SELECT * FROM folder WHERE folderName = :folderId")
+    @Query("SELECT * FROM folder WHERE folderId = :folderId")
     fun getFolderWithProducts(folderId: Int): LiveData<MutableList<FolderWithProducts>>
 }

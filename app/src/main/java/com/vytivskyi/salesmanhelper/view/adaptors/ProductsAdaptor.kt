@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vytivskyi.salesmanhelper.R
 import com.vytivskyi.salesmanhelper.databinding.RecyclerViewProductsBinding
 import com.vytivskyi.salesmanhelper.model.room.entity.Product
-import com.vytivskyi.salesmanhelper.view.fragments.list.ListFragmentDirections
+import com.vytivskyi.salesmanhelper.view.fragments.ListProductsDirections
 
 class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
     var mainL: List<Product> = emptyList()
@@ -25,9 +25,7 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
             recyclerProductsTitle.text = products.title
             recyclerProductsPrice.text = products.price.toString()
             recyclerProductsNumber.text = products.number.toString()
-
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,7 +38,7 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
         holder.bind(mainL[position], position)
 
         holder.itemView.setOnClickListener {
-            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(mainL[position])
+            val action = ListProductsDirections.actionListFragmentToUpdateFragment(mainL[position])
             holder.itemView.findNavController().navigate(action)
         }
     }
@@ -48,5 +46,4 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
     override fun getItemCount(): Int {
         return mainL.size
     }
-
 }

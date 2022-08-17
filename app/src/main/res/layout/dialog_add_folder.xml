@@ -11,11 +11,11 @@
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="hint"
+        android:hint="Write title for your folder here"
         android:inputType="textPersonName"
         android:padding="10dp"
         android:textAlignment="center"
-        android:textColorHint="#9AF10000"
+        android:textColorHint="#9AFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

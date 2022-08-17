@@ -13,11 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SalesmanHelper"
         tools:targetApi="31" >
-        <activity android:name=".view.activities.ProductsActivity"
-            android:exported="true"
-            />
         <activity
-            android:name=".view.activities.MainActivity"
+            android:name=".view.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -6,8 +6,8 @@
     app:startDestination="@id/list_Folders_Fragment">
 
     <fragment
-        android:id="@+id/listFragment"
-        android:name="com.vytivskyi.salesmanhelper.view.fragments.list.ListFragment"
+        android:id="@+id/ListOfProducts"
+        android:name="com.vytivskyi.salesmanhelper.view.fragments.ListProducts"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <action
@@ -19,65 +19,41 @@
         <action
             android:id="@+id/action_listFragment_to_updateFragment"
             app:destination="@id/updateFragment" />
+        <action
+            android:id="@+id/action_ListOfProducts_to_list_Folders_Fragment"
+            app:destination="@id/list_Folders_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
-        android:name="com.vytivskyi.salesmanhelper.view.fragments.add.AddFragment"
+        android:name="com.vytivskyi.salesmanhelper.view.fragments.AddProduct"
         android:label="fragment_add"
         tools:layout="@layout/fragment_add" >
         <action
             android:id="@+id/action_addFragment_to_listFragment"
-            app:destination="@id/listFragment" />
+            app:destination="@id/ListOfProducts" />
         <argument
             android:name="folderId"
             app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/updateFragment"
-        android:name="com.vytivskyi.salesmanhelper.view.fragments.update.UpdateFragment"
+        android:name="com.vytivskyi.salesmanhelper.view.fragments.UpdateProduct"
         android:label="fragment_update"
         tools:layout="@layout/fragment_update" >
         <action
             android:id="@+id/action_updateFragment_to_listFragment"
-            app:destination="@id/listFragment" />
+            app:destination="@id/ListOfProducts" />
         <argument
             android:name="product"
             app:argType="com.vytivskyi.salesmanhelper.model.room.entity.Product" />
     </fragment>
     <fragment
         android:id="@+id/list_Folders_Fragment"
-        android:name="com.vytivskyi.salesmanhelper.ListFoldersFragment"
+        android:name="com.vytivskyi.salesmanhelper.view.fragments.ListFolders"
         android:label="fragment_list__folders_"
         tools:layout="@layout/fragment_list__folders_" >
         <action
             android:id="@+id/action_list_Folders_Fragment_to_listFragment"
-            app:destination="@id/listFragment" />
-        <action
-            android:id="@+id/action_list_Folders_Fragment_to_addFolderFragment"
-            app:destination="@id/addFolderFragment" />
-        <action
-            android:id="@+id/action_list_Folders_Fragment_to_editFolderFragment"
-            app:destination="@id/editFolderFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addFolderFragment"
-        android:name="com.vytivskyi.salesmanhelper.AddFolderFragment"
-        android:label="fragment_add_folder"
-        tools:layout="@layout/fragment_add_folder" >
-        <action
-            android:id="@+id/action_addFolderFragment_to_list_Folders_Fragment"
-            app:destination="@id/list_Folders_Fragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/editFolderFragment"
-        android:name="com.vytivskyi.salesmanhelper.EditFolderFragment"
-        android:label="fragment_edit_folder"
-        tools:layout="@layout/fragment_edit_folder" >
-        <action
-            android:id="@+id/action_editFolderFragment_to_list_Folders_Fragment"
-            app:destination="@id/list_Folders_Fragment" />
-        <argument
-            android:name="Folder"
-            app:argType="com.vytivskyi.salesmanhelper.model.room.entity.Folder" />
+            app:destination="@id/ListOfProducts" />
     </fragment>
 </navigation>

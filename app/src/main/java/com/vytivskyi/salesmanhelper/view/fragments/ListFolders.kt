@@ -1,15 +1,18 @@
-package com.vytivskyi.salesmanhelper
+package com.vytivskyi.salesmanhelper.view.fragments
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.vytivskyi.salesmanhelper.R
 import com.vytivskyi.salesmanhelper.databinding.DialogAddFolderBinding
 import com.vytivskyi.salesmanhelper.databinding.FragmentListFoldersBinding
 import com.vytivskyi.salesmanhelper.model.room.entity.Folder
@@ -17,12 +20,12 @@ import com.vytivskyi.salesmanhelper.view.adaptors.FolderAdaptor
 import com.vytivskyi.salesmanhelper.viewmodel.FolderViewModel
 
 
-class ListFoldersFragment : Fragment() {
+class ListFolders : Fragment() {
 
     private lateinit var binding: FragmentListFoldersBinding
 
     private lateinit var folderViewModel: FolderViewModel
-    lateinit var mAdaptor: FolderAdaptor
+    private lateinit var mAdaptor: FolderAdaptor
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,10 +34,12 @@ class ListFoldersFragment : Fragment() {
         binding = FragmentListFoldersBinding.inflate(inflater)
 
         folderViewModel = FolderViewModel(this.requireActivity().application)
+        mAdaptor = FolderAdaptor(requireContext(), folderViewModel)
+        mAdaptor.mItemClickListener = ::onClickFolder
 
         observerOfFolders()
 
-        binding.addFolder.setOnClickListener {
+        binding.btAddFolder.setOnClickListener {
             addFolder()
         }
 
@@ -42,13 +47,14 @@ class ListFoldersFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
     }
 
     private fun observerOfFolders() {
         folderViewModel.allFolders.observe(viewLifecycleOwner) { folders ->
             // Update the cached copy of the words in the adapter.
             folders.let {
-                mAdaptor = FolderAdaptor(requireContext(), folderViewModel )
+
                 mAdaptor.folder = it
                 binding.recyclerView.adapter = mAdaptor
                 binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
@@ -56,10 +62,20 @@ class ListFoldersFragment : Fragment() {
         }
     }
 
-    private fun editFolder(folder: Folder) {
-        val action =
-            ListFoldersFragmentDirections.actionListFoldersFragmentToEditFolderFragment(folder)
-        findNavController().navigate(action)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true)
+            {
+                override fun handleOnBackPressed() {
+                    activity?.moveTaskToBack(true)
+                    activity?.finish()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            callback
+        )
     }
 
     private fun addFolder() {
@@ -95,6 +111,10 @@ class ListFoldersFragment : Fragment() {
         }
     }
 
-
+    private fun onClickFolder(folder: Folder) {
+        val action =
+           ListFoldersDirections.actionListFoldersFragmentToListFragment(folder.folderId)
+        findNavController().navigate(action)
+    }
 
 }

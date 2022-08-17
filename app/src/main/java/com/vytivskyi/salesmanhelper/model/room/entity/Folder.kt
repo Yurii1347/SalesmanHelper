@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity
-class Folder(
+data class Folder(
     @PrimaryKey(autoGenerate = true)
     val folderId: Int,
     val folderName: String,

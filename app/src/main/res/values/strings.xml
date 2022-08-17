@@ -9,6 +9,7 @@
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="create">Create</string>
+    <string name="change">Change</string>
 
 
     <string name="create_folder_message">Enter the name below</string>
