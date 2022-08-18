@@ -13,5 +13,6 @@ data class Product(
     val title: String,
     val price: Int,
     val number: Int,
-    val folderId: Int
+    val folderId: Int,
+    var selector: Boolean = false,
     ): Parcelable

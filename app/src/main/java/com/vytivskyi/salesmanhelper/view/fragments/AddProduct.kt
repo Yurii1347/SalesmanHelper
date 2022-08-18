@@ -65,7 +65,7 @@ class AddProduct : Fragment() {
                 name,
                 Integer.parseInt(price.toString()),
                 Integer.parseInt(number.toString()),
-                args.folderId
+                args.folderId,
             )
             productsViewModel.addProduct(product)
             Toast.makeText(requireContext(), "Successful", Toast.LENGTH_SHORT).show()

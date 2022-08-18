@@ -1,18 +1,21 @@
 package com.vytivskyi.salesmanhelper.view.fragments
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.vytivskyi.salesmanhelper.R
 import com.vytivskyi.salesmanhelper.databinding.FragmentListBinding
 import com.vytivskyi.salesmanhelper.view.adaptors.ProductsAdaptor
 import com.vytivskyi.salesmanhelper.viewmodel.ProductsViewModel
@@ -23,6 +26,7 @@ class ListProducts : Fragment() {
 
     private lateinit var productsViewModel: ProductsViewModel
 
+    private var myMenu: Menu? = null
     private val productsAdaptor = ProductsAdaptor()
     private val args: ListProductsArgs by navArgs()
 
@@ -36,15 +40,40 @@ class ListProducts : Fragment() {
         productsViewModel = ProductsViewModel(this.requireActivity().application, args.folderId)
         binding.productRcyclerView.adapter = productsAdaptor
 
+        productsAdaptor.showMenuDelete = ::showMenuDelete
         binding.floatingActionButtonAddProduct.setOnClickListener {
-            Log.d("kek", "${args.folderId}")
             val action =
                 ListProductsDirections.actionListFragmentToAddFragment(folderId = args.folderId)
             binding.root.findNavController().navigate(action)
-
         }
         initObserver()
         return binding.root
+    }
+
+    private fun showMenuDelete(show: Boolean) {
+        myMenu?.findItem(R.id.Delete)?.isVisible = show
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                myMenu = menu
+                menuInflater.inflate(R.menu.custom_menu, myMenu)
+                myMenu?.findItem(R.id.Delete)?.isVisible = false
+                myMenu?.findItem(R.id.Edit)?.isVisible = false
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+
+                when (menuItem.itemId) {
+                    R.id.Delete -> {
+                       deleteProducts()
+                    }
+                }
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onAttach(context: Context) {
@@ -64,7 +93,7 @@ class ListProducts : Fragment() {
 
     private fun initObserver() {
         productsViewModel.allProductsFromFolder.observe(this@ListProducts as LifecycleOwner) {
-            productsAdaptor.mainL = it.map { products ->
+            productsAdaptor.productList = it.map { products ->
                 products.products
             }.flatten()
 
@@ -72,4 +101,26 @@ class ListProducts : Fragment() {
         }
     }
 
+    private fun deleteProducts() {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+
+        dialogBuilder.setTitle(R.string.delete)
+        dialogBuilder.setMessage(R.string.dialog_product_delete_message)
+        dialogBuilder.setPositiveButton(
+            R.string.delete,
+            DialogInterface.OnClickListener { _, _ ->
+                productsAdaptor.deleteSelectedItem(productsViewModel)
+                showMenuDelete(false)
+            })
+        dialogBuilder.setNegativeButton(
+            "Cancel",
+            DialogInterface.OnClickListener { dialog, which ->
+                productsAdaptor.itemSelectedList.clear()
+                showMenuDelete(false)
+                productsAdaptor.notifyDataSetChanged()
+            })
+        dialogBuilder.create().show()
+    }
+
 }
+

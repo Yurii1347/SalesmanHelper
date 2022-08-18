@@ -9,16 +9,22 @@ import com.vytivskyi.salesmanhelper.R
 import com.vytivskyi.salesmanhelper.databinding.RecyclerViewProductsBinding
 import com.vytivskyi.salesmanhelper.model.room.entity.Product
 import com.vytivskyi.salesmanhelper.view.fragments.ListProductsDirections
+import com.vytivskyi.salesmanhelper.viewmodel.ProductsViewModel
 
 class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
-    var mainL: List<Product> = emptyList()
+    var productList: List<Product> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
+    var showMenuDelete: (Boolean) -> Unit = {}
+
+    private var isEnable = false
+    val itemSelectedList: MutableSet<Int> = mutableSetOf()
+
     class ViewHolder(item: View) : RecyclerView.ViewHolder(item) {
-        private val binding = RecyclerViewProductsBinding.bind(item)
+        val binding = RecyclerViewProductsBinding.bind(item)
 
         fun bind(products: Product, position: Int) = with(binding) {
             recyclerProductsPosition.text = position.plus(1).toString()
@@ -35,15 +41,61 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(mainL[position], position)
+        val item = productList[position]
+        holder.binding.checkMark.visibility = View.GONE
 
-        holder.itemView.setOnClickListener {
-            val action = ListProductsDirections.actionListFragmentToUpdateFragment(mainL[position])
-            holder.itemView.findNavController().navigate(action)
+        holder.bind(productList[position], position)
+
+        if (itemSelectedList.isEmpty()) {
+            holder.binding.recyclerProductsPosition.visibility = View.VISIBLE
+            isEnable = false
+        }
+
+        holder.binding.productLayout.setOnLongClickListener() {
+            selectItem(holder, item, position)
+            true
+        }
+
+        holder.binding.productLayout.setOnClickListener {
+            if (itemSelectedList.contains(position)) {
+                itemSelectedList.remove(position)
+                holder.binding.checkMark.visibility = View.GONE
+                holder.binding.recyclerProductsPosition.visibility = View.VISIBLE
+                item.selector = false
+                if (itemSelectedList.isEmpty()) {
+                    showMenuDelete(false)
+                    isEnable = false
+                }
+            } else if (isEnable) {
+                selectItem(holder, item, position)
+            } else {
+                val action =
+                    ListProductsDirections.actionListFragmentToUpdateFragment(productList[position])
+                holder.itemView.findNavController().navigate(action)
+            }
         }
     }
 
+    private fun selectItem(holder: ProductsAdaptor.ViewHolder, item: Product, position: Int) {
+        isEnable = true
+        itemSelectedList.add(position)
+        item.selector = true
+        holder.binding.recyclerProductsPosition.visibility = View.GONE
+        holder.binding.checkMark.visibility = View.VISIBLE
+        showMenuDelete(true)
+    }
+
     override fun getItemCount(): Int {
-        return mainL.size
+        return productList.size
+    }
+
+    fun deleteSelectedItem(productsViewModel: ProductsViewModel) {
+        if (itemSelectedList.isNotEmpty()) {
+            itemSelectedList.forEach {
+                productsViewModel.deleteProduct(productList[itemSelectedList.indexOf(it)])
+            }
+            isEnable = false
+            itemSelectedList.clear()
+        }
     }
 }

@@ -7,11 +7,11 @@
         android:id="@+id/Edit"
         android:icon="@drawable/ic_baseline_edit_24"
         android:title="@string/edit"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/Delete"
         android:title="@string/delete"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:icon="@drawable/ic_baseline_delete_24" />
 
 

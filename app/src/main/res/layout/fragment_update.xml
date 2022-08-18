@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#FFFFFF"
     tools:context=".view.fragments.UpdateProduct">
 
     <EditText
@@ -18,6 +18,8 @@
         android:hint="Name"
         android:inputType="textPersonName"
         android:textAlignment="center"
+        android:textColor="#000000"
+        android:textColorHint="#686262"
         app:layout_constraintBottom_toTopOf="@+id/update_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -33,6 +35,8 @@
         android:hint="Price"
         android:inputType="number"
         android:textAlignment="center"
+        android:textColor="#000000"
+        android:textColorHint="#686262"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="@+id/update_title"
         app:layout_constraintHorizontal_bias="1.0"
@@ -47,6 +51,8 @@
         android:hint="Number"
         android:inputType="number"
         android:textAlignment="center"
+        android:textColor="#000000"
+        android:textColorHint="#686262"
         app:layout_constraintEnd_toEndOf="@+id/update_price"
         app:layout_constraintStart_toStartOf="@+id/update_price"
         app:layout_constraintTop_toBottomOf="@+id/update_price" />
@@ -73,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change the value of product"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/update_title"
