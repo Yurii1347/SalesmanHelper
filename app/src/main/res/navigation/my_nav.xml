@@ -55,5 +55,26 @@
         <action
             android:id="@+id/action_list_Folders_Fragment_to_listFragment"
             app:destination="@id/ListOfProducts" />
+        <action
+            android:id="@+id/action_list_Folders_Fragment_to_barcodeSacanner"
+            app:destination="@id/barcodeSacanner" />
+    </fragment>
+    <fragment
+        android:id="@+id/barcodeSacanner"
+        android:name="com.vytivskyi.salesmanhelper.ScanBarcodeFragment"
+        android:label="fragment_barcode_sacanner"
+        tools:layout="@layout/fragment_scan_barcode" >
+        <action
+            android:id="@+id/action_barcodeSacanner_to_successFragment"
+            app:destination="@id/successFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="com.vytivskyi.salesmanhelper.SuccessFragment"
+        android:label="fragment_success"
+        tools:layout="@layout/fragment_success" >
+        <argument
+            android:name="barcode"
+            app:argType="string" />
     </fragment>
 </navigation>

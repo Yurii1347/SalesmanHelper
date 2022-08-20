@@ -24,4 +24,6 @@
     <string name="list_folders_fragment">List folders</string>
     <string name="add_folder_fragment">Add new folder</string>
     <string name="edit_folder_fragment">Edit current folder</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

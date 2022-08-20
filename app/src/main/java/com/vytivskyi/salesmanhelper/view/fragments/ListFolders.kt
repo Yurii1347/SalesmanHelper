@@ -2,16 +2,23 @@ package com.vytivskyi.salesmanhelper.view.fragments
 
 import android.content.Context
 import android.content.DialogInterface
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.barcode.common.Barcode
+import com.google.mlkit.vision.common.InputImage
 import com.vytivskyi.salesmanhelper.R
 import com.vytivskyi.salesmanhelper.databinding.DialogAddFolderBinding
 import com.vytivskyi.salesmanhelper.databinding.FragmentListFoldersBinding
@@ -43,6 +50,13 @@ class ListFolders : Fragment() {
             addFolder()
         }
 
+        binding.imageView2.setOnClickListener {
+
+            val action = ListFoldersDirections.actionListFoldersFragmentToBarcodeSacanner()
+            findNavController().navigate(action)
+
+        }
+
         return binding.root
     }
 
@@ -65,8 +79,7 @@ class ListFolders : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true)
-            {
+            object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     activity?.moveTaskToBack(true)
                     activity?.finish()
@@ -113,8 +126,21 @@ class ListFolders : Fragment() {
 
     private fun onClickFolder(folder: Folder) {
         val action =
-           ListFoldersDirections.actionListFoldersFragmentToListFragment(folder.folderId)
+            ListFoldersDirections.actionListFoldersFragmentToListFragment(folder.folderId)
         findNavController().navigate(action)
+    }
+
+    @androidx.camera.core.ExperimentalGetImage
+    private class YourImageAnalyzer : ImageAnalysis.Analyzer {
+
+        override fun analyze(imageProxy: ImageProxy) {
+            val mediaImage = imageProxy.image
+            if (mediaImage != null) {
+                val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+                // Pass image to an ML Kit Vision API
+                // ...
+            }
+        }
     }
 
 }
