@@ -82,7 +82,7 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
             if (item.barcode == it) {
                 holder.binding.recyclerProductsTitle.setBackgroundColor(Color.GREEN)
             }
-            else holder.binding.cardView.setBackgroundColor(Color.WHITE)
+            else holder.binding.recyclerProductsTitle.setBackgroundColor(Color.WHITE)
         }
     }
 
@@ -104,9 +104,9 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
             for (i in itemSelectedList) {
                 productsViewModel.deleteProduct(productList[i])
             }
-
             isEnable = false
             itemSelectedList.clear()
         }
+        notifyDataSetChanged()
     }
 }

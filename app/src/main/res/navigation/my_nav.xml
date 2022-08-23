@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/list_Folders"
-        android:name="com.vytivskyi.salesmanhelper.view.fragments.ListFolders"
+        android:name="com.vytivskyi.salesmanhelper.view.fragments.ListFoldersFragment"
         android:label="fragment_list__folders_"
         tools:layout="@layout/fragment_list__folders_" >
         <action

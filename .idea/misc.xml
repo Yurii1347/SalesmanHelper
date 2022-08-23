@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/custom_input.xml" value="0.149" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.149" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.1255" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.149" />
@@ -10,6 +11,7 @@
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_document_scanner_24.xml" value="0.149" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.149" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_folder_24.xml" value="0.1255" />
+        <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.149" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.149" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.149" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_new_folder_24.xml" value="0.1255" />

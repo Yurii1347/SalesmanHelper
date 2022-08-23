@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class ProductsViewModel(application: Application, folderId: Int) :
     AndroidViewModel(application) {
 
-    val allProductsFromFolder: LiveData<MutableList<FolderWithProducts>>
+    val allProductsFromFolder: LiveData<List<FolderWithProducts>>
 
     private val repository: ProductRepository
 

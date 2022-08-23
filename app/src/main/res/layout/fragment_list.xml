@@ -82,7 +82,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center_vertical"
-        android:text="Title"
+        android:text="@string/title"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -97,7 +97,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center_vertical"
-        android:text="Price"
+        android:text="@string/price"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -113,7 +113,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center_vertical"
-        android:text="Amount"
+        android:text="@string/amount"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -123,6 +123,15 @@
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_baseline_document_scanner_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

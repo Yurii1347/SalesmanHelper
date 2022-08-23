@@ -49,7 +49,6 @@ class ListProducts : Fragment() {
         }
         initObserver()
 
-        Log.d("color", "${args.barcode}")
         return binding.root
     }
 
@@ -112,18 +111,18 @@ class ListProducts : Fragment() {
         dialogBuilder.setTitle(R.string.delete)
         dialogBuilder.setMessage(R.string.dialog_product_delete_message)
         dialogBuilder.setPositiveButton(
-            R.string.delete,
-            DialogInterface.OnClickListener { _, _ ->
-                productsAdaptor.deleteSelectedItem(productsViewModel)
-                showMenuDelete(false)
-            })
+            R.string.delete
+        ) { _, _ ->
+            productsAdaptor.deleteSelectedItem(productsViewModel)
+            showMenuDelete(false)
+        }
         dialogBuilder.setNegativeButton(
-            "Cancel",
-            DialogInterface.OnClickListener { dialog, which ->
-                productsAdaptor.itemSelectedList.clear()
-                showMenuDelete(false)
-                productsAdaptor.notifyDataSetChanged()
-            })
+            "Cancel"
+        ) { _, _ ->
+            productsAdaptor.itemSelectedList.clear()
+            showMenuDelete(false)
+            productsAdaptor.notifyDataSetChanged()
+        }
         dialogBuilder.create().show()
     }
 

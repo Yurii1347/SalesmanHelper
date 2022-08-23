@@ -10,15 +10,24 @@
     <string name="edit">Edit</string>
     <string name="create">Create</string>
     <string name="change">Change</string>
+    <string name="title">Title</string>
+    <string name="price">Price</string>
+    <string name="amount">Amount</string>
+    <string name="barcode">Barcode (optional)</string>
+    <string name="add">Add new product</string>
+
+    <string name="hint_search">Enter the barcode or title of product</string>
 
 
-    <string name="create_folder_message">Enter the name below</string>
-    <string name="create_folder_hint">Enter here the name</string>
-    <string name="create_folder_delete_toast">Please fill the row</string>
+    <string name="hint_create_folder_message">Enter the name below</string>
+    <string name="hint_create_folder_hint">Enter here the name</string>
+    <string name="hint_create_folder_delete_toast">Please fill the row</string>
 
     <string name="dialog_folder_delete_message">Are you sure that you want to delete this folder?</string>
-
     <string name="dialog_product_delete_message">Are you sure that you want to delete this product(s)?</string>
+
+    <string name="dialog_create_new_product_from_scanner">Looks like this product still not in your database,
+    do you want add this product there ?</string>
 
 
     <string name="list_folders_fragment">List folders</string>

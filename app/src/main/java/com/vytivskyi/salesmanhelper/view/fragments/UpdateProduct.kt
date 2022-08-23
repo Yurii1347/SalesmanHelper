@@ -19,7 +19,7 @@ import com.vytivskyi.salesmanhelper.viewmodel.ProductsViewModel
 
 class UpdateProduct : Fragment() {
     private lateinit var binding: FragmentUpdateBinding
-    private lateinit var mProductsViewModel: ProductsViewModel
+    private lateinit var productsViewModel: ProductsViewModel
 
     private val args: UpdateProductArgs by navArgs()
 
@@ -29,13 +29,14 @@ class UpdateProduct : Fragment() {
     ): View? {
         binding = FragmentUpdateBinding.inflate(inflater)
 
-        mProductsViewModel =
+        productsViewModel =
             ProductsViewModel(this.requireActivity().application, args.product.folderId)
 
         binding.apply {
             updateTitle.setText(args.product.title)
             updatePrice.setText(args.product.price.toString())
             updateNumber.setText(args.product.number.toString())
+            updateBarcode.setText(args.product.barcode)
 
             updateProduct.setOnClickListener {
                 updateProduct()
@@ -77,7 +78,7 @@ class UpdateProduct : Fragment() {
                 folderId = args.product.folderId,
                 barcode = null
             )
-            mProductsViewModel.updateProduct(updatedProduct)
+            productsViewModel.updateProduct(updatedProduct)
 
             val action =
                 UpdateProductDirections.actionUpdateFragmentToListFragment(

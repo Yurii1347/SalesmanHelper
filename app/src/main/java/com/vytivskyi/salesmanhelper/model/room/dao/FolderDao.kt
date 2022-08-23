@@ -9,15 +9,15 @@ import com.vytivskyi.salesmanhelper.model.room.entity.relation.FolderWithProduct
 @Dao
 interface FolderDao {
     @Query("SELECT * FROM folder")
-    fun getFolders(): LiveData<MutableList<Folder>>
+    fun getFolders(): LiveData<List<Folder>>
 
     @Query("SELECT * FROM product")
-    fun getProducts(): LiveData<MutableList<Product>>
+    fun getProducts(): LiveData<List<Product>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addFolder(folder: Folder)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addProduct(product: Product)
 
     @Delete
@@ -34,5 +34,8 @@ interface FolderDao {
 
     @Transaction
     @Query("SELECT * FROM folder WHERE folderId = :folderId")
-    fun getFolderWithProducts(folderId: Int): LiveData<MutableList<FolderWithProducts>>
+    fun getFolderWithProducts(folderId: Int): LiveData<List<FolderWithProducts>>
+
+    @Query("SELECT * FROM folder")
+    fun getAllFoldersWithProducts(): LiveData<List<FolderWithProducts>>
 }

@@ -58,9 +58,9 @@
                 android:cropToPadding="false"
                 android:minHeight="30dp"
                 android:scaleType="center"
-                app:layout_constraintBottom_toBottomOf="@+id/folder_name"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/folder_name"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_more_vert_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

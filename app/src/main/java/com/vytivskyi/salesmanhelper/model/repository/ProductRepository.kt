@@ -7,7 +7,7 @@ import com.vytivskyi.salesmanhelper.model.room.entity.relation.FolderWithProduct
 
 class ProductRepository(private val folderDao: FolderDao, folderId: Int) {
 
-    val allProductsFromFolder: LiveData<MutableList<FolderWithProducts>> =
+    val allProductsFromFolder: LiveData<List<FolderWithProducts>> =
         folderDao.getFolderWithProducts(folderId)
 
     suspend fun addProduct(product: Product) {

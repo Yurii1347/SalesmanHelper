@@ -1,6 +1,5 @@
 package com.vytivskyi.salesmanhelper
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.vytivskyi.salesmanhelper.databinding.DialogAddFolderBinding
 import com.vytivskyi.salesmanhelper.databinding.FragmentChooseFolderForProductBinding
 import com.vytivskyi.salesmanhelper.model.room.entity.Folder
+import com.vytivskyi.salesmanhelper.model.room.entity.relation.FolderWithProducts
 import com.vytivskyi.salesmanhelper.view.adaptors.FolderAdaptor
 import com.vytivskyi.salesmanhelper.viewmodel.FolderViewModel
 
@@ -34,12 +34,12 @@ class ChooseFolderForProduct : Fragment() {
         binding = FragmentChooseFolderForProductBinding.inflate(inflater)
 
         folderViewModel = FolderViewModel(this.requireActivity().application)
-        mAdaptor = FolderAdaptor(requireContext(), folderViewModel)
-        mAdaptor.mFolderClickListener =::onClickOnFolder
+        mAdaptor = FolderAdaptor()
+        mAdaptor.mFolderClickListener = ::onClickOnFolder
 
         observerFolders()
 
-        binding.addFolder.setOnClickListener{
+        binding.addFolder.setOnClickListener {
             addFolder()
         }
 
@@ -50,16 +50,19 @@ class ChooseFolderForProduct : Fragment() {
         folderViewModel.allFolders.observe(viewLifecycleOwner) { folders ->
             // Update the cached copy of the words in the adapter.
             folders.let {
-                mAdaptor.folder = it
+                mAdaptor.folders = it
                 binding.chooseFolderRecycler.adapter = mAdaptor
                 binding.chooseFolderRecycler.layoutManager = GridLayoutManager(requireContext(), 1)
             }
         }
     }
 
-    private fun onClickOnFolder(folder: Folder) {
+    private fun onClickOnFolder(folder: FolderWithProducts) {
         val action =
-            ChooseFolderForProductDirections.actionChooseFolderForProductToAddFragment(folder.folderId, args.barcode)
+            ChooseFolderForProductDirections.actionChooseFolderForProductToAddFragment(
+                folder.folder.folderId,
+                args.barcode
+            )
         findNavController().navigate(action)
     }
 
@@ -71,25 +74,25 @@ class ChooseFolderForProduct : Fragment() {
 
         bindingDialog.apply {
             dialogBuilder.setTitle(R.string.create)
-            dialogBuilder.setMessage(R.string.create_folder_message)
+            dialogBuilder.setMessage(R.string.hint_create_folder_message)
             dialogBuilder.setPositiveButton(
-                R.string.create,
-                DialogInterface.OnClickListener { _, _ ->
-                    if (dialogFolderEdText.text.isNotEmpty()) {
-                        val folder = Folder(0, dialogFolderEdText.text.toString())
-                        folderViewModel.addFolder(folder)
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            R.string.create_folder_delete_toast,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                })
+                R.string.create
+            ) { _, _ ->
+                if (dialogFolderEdText.text.isNotEmpty()) {
+                    val folder = Folder(0, dialogFolderEdText.text.toString())
+                    folderViewModel.addFolder(folder)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.hint_create_folder_delete_toast,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
             dialogBuilder.setNegativeButton(
-                "Cancel",
-                DialogInterface.OnClickListener { dialog, which ->
-                })
+                "Cancel"
+            ) { _, _ ->
+            }
             dialogBuilder.create().show()
         }
     }

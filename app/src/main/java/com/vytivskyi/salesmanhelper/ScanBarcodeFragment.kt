@@ -17,6 +17,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.mlkit.vision.barcode.common.Barcode
 import com.vytivskyi.salesmanhelper.databinding.FragmentScanBarcodeBinding
 import com.vytivskyi.salesmanhelper.model.BarcodeAnalyzer
 import com.vytivskyi.salesmanhelper.model.room.entity.Product
@@ -63,7 +64,6 @@ class ScanBarcodeFragment : Fragment() {
             this.product = it
         }
 
-
         return binding.root
     }
 
@@ -103,7 +103,6 @@ class ScanBarcodeFragment : Fragment() {
                     it.setAnalyzer(cameraExecutor, BarcodeAnalyzer { result ->
                         if (processingBarcode.compareAndSet(false, true)) {
                             barcode = result ?: " "
-                            Log.d("barcode", "$barcode")
                             openProductWithBarcode(product)
                         }
                     })
@@ -148,20 +147,24 @@ class ScanBarcodeFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun openProductWithBarcode(product: List<Product>?) {
-        product?.forEach {
-            if (it.barcode == barcode && findNavController().currentDestination?.id
-                == R.id.barcodeSacanner
-            ) {
-                val action =
-                    ScanBarcodeFragmentDirections.actionBarcodeSacannerToListOfProducts(
-                        it.folderId,
-                        barcode
-                    )
-                findNavController().navigate(action)
-            }
+    private fun openProductWithBarcode(products: List<Product>?) {
+
+        val product = products?.firstOrNull {
+            it.barcode == barcode &&
+                    findNavController().currentDestination?.id == R.id.barcodeSacanner
+
         }
-        openFoldersForAddingNewProduct()
+        Log.d("tag", "$product")
+        if (product != null) {
+            val action =
+                ScanBarcodeFragmentDirections.actionBarcodeSacannerToListOfProducts(
+                    product.folderId,
+                    barcode
+                )
+            findNavController().navigate(action)
+        } else {
+            openFoldersForAddingNewProduct()
+        }
     }
 
     private fun openFoldersForAddingNewProduct() {
@@ -169,7 +172,7 @@ class ScanBarcodeFragment : Fragment() {
             val dialogBuilder = AlertDialog.Builder(requireActivity())
             dialogBuilder
                 .setTitle(R.string.create)
-                .setMessage(R.string.create_folder_message)
+                .setMessage(R.string.dialog_create_new_product_from_scanner)
                 .setPositiveButton(
                     R.string.create,
                     DialogInterface.OnClickListener { _, _ ->
