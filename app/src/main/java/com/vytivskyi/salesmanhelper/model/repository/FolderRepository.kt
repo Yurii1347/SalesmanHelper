@@ -9,6 +9,7 @@ import com.vytivskyi.salesmanhelper.model.room.entity.Product
 class FolderRepository(private val folderDao: FolderDao) {
 
     val allFolders: LiveData<MutableList<Folder>> = folderDao.getFolders()
+    val allProducts: LiveData<MutableList<Product>> = folderDao.getProducts()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -21,4 +22,8 @@ class FolderRepository(private val folderDao: FolderDao) {
     suspend fun updateFolder(folder: Folder){
         folderDao.updateFolder(folder)
     }
+    suspend fun deleteAllProducts(product: Product) {
+        folderDao.deleteProduct(product)
+    }
+
 }

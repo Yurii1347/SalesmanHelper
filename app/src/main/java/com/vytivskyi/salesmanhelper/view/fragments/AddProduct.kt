@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,7 @@ class AddProduct : Fragment() {
         binding.addProduct.setOnClickListener {
             insertProduct()
         }
-
+Log.d("pop", "$args.barcode")
         return binding.root
     }
 
@@ -44,7 +45,7 @@ class AddProduct : Fragment() {
             object : OnBackPressedCallback(true)
             {
                 override fun handleOnBackPressed() {
-                    val action = AddProductDirections.actionAddFragmentToListFragment(args.folderId)
+                    val action = AddProductDirections.actionAddFragmentToListFragment(args.folderId, null)
                     findNavController().navigate(action)
                 }
             }
@@ -66,15 +67,15 @@ class AddProduct : Fragment() {
                 Integer.parseInt(price.toString()),
                 Integer.parseInt(number.toString()),
                 args.folderId,
+                barcode = args.barcode
             )
             productsViewModel.addProduct(product)
             Toast.makeText(requireContext(), "Successful", Toast.LENGTH_SHORT).show()
             val action =
-                AddProductDirections.actionAddFragmentToListFragment(folderId = args.folderId)
+                AddProductDirections.actionAddFragmentToListFragment(folderId = args.folderId, null)
             binding.root.findNavController().navigate(action)
         } else {
             Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show()
-
         }
     }
 

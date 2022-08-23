@@ -48,10 +48,12 @@ class UpdateProduct : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true)
-            {
+            object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    val action = UpdateProductDirections.actionUpdateFragmentToListFragment(args.product.folderId)
+                    val action = UpdateProductDirections.actionUpdateFragmentToListFragment(
+                        args.product.folderId,
+                        null
+                    )
                     findNavController().navigate(action)
                 }
             }
@@ -72,12 +74,16 @@ class UpdateProduct : Fragment() {
                 title = title.toString(),
                 price = price.toString().toInt(),
                 number = number.toString().toInt(),
-                folderId = args.product.folderId
+                folderId = args.product.folderId,
+                barcode = null
             )
             mProductsViewModel.updateProduct(updatedProduct)
 
             val action =
-                UpdateProductDirections.actionUpdateFragmentToListFragment(folderId = args.product.folderId)
+                UpdateProductDirections.actionUpdateFragmentToListFragment(
+                    folderId = args.product.folderId,
+                    null
+                )
             binding.root.findNavController().navigate(action)
 
         } else {

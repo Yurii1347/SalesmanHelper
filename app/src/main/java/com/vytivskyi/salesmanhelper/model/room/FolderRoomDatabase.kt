@@ -8,7 +8,7 @@ import com.vytivskyi.salesmanhelper.model.room.dao.FolderDao
 import com.vytivskyi.salesmanhelper.model.room.entity.Folder
 import com.vytivskyi.salesmanhelper.model.room.entity.Product
 
-@Database(entities = [Folder::class, Product::class], version = 2, exportSchema = false)
+@Database(entities = [Folder::class, Product::class], version = 5, exportSchema = false)
 abstract class FolderRoomDatabase : RoomDatabase() {
 
     abstract fun folderDao(): FolderDao
@@ -23,7 +23,8 @@ abstract class FolderRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     FolderRoomDatabase::class.java,
                     "folder_table"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 return instance
             }

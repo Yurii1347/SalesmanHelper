@@ -13,9 +13,14 @@ import com.vytivskyi.salesmanhelper.R
 import com.vytivskyi.salesmanhelper.databinding.DialogEditFolderBinding
 import com.vytivskyi.salesmanhelper.databinding.RecyclerViewItemBinding
 import com.vytivskyi.salesmanhelper.model.room.entity.Folder
+import com.vytivskyi.salesmanhelper.model.room.entity.Product
 import com.vytivskyi.salesmanhelper.viewmodel.FolderViewModel
+import com.vytivskyi.salesmanhelper.viewmodel.ProductsViewModel
 
-class FolderAdaptor(private val context: Context, private val folderViewModel: FolderViewModel) :
+class FolderAdaptor(
+    private val context: Context,
+    private val folderViewModel: FolderViewModel,
+) :
     RecyclerView.Adapter<FolderAdaptor.FolderViewHolder>() {
 
     var folder: List<Folder> = emptyList()
@@ -24,7 +29,14 @@ class FolderAdaptor(private val context: Context, private val folderViewModel: F
             notifyDataSetChanged()
         }
 
+    var product: List<Product> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     var mItemClickListener: (folder: Folder) -> Unit = {}
+    var mFolderClickListener: (folder: Folder) -> Unit = {}
 
     inner class FolderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = RecyclerViewItemBinding.bind(itemView)
@@ -36,6 +48,7 @@ class FolderAdaptor(private val context: Context, private val folderViewModel: F
         init {
             itemView.setOnClickListener {
                 mItemClickListener(folder[adapterPosition])
+                mFolderClickListener(folder[adapterPosition])
 
             }
 
@@ -55,6 +68,7 @@ class FolderAdaptor(private val context: Context, private val folderViewModel: F
                     }
                     R.id.Delete -> {
                         deleteFolder(folder[adapterPosition], folderViewModel)
+                        deleteAllProductsFromFolder(folder[adapterPosition].folderId)
                         true
                     }
                     else -> true
@@ -123,7 +137,10 @@ class FolderAdaptor(private val context: Context, private val folderViewModel: F
 
     }
 
-    private fun deleteFolder(folder: Folder, folderViewModel: FolderViewModel) {
+    private fun deleteFolder(
+        folder: Folder,
+        folderViewModel: FolderViewModel,
+    ) {
         val dialogBuilder = AlertDialog.Builder(context)
 
         dialogBuilder.setTitle(R.string.delete)
@@ -132,12 +149,25 @@ class FolderAdaptor(private val context: Context, private val folderViewModel: F
             R.string.delete,
             DialogInterface.OnClickListener { _, _ ->
                 folderViewModel.deleteFolder(folder)
+
             })
         dialogBuilder.setNegativeButton(
             "Cancel",
             DialogInterface.OnClickListener { dialog, which ->
             })
         dialogBuilder.create().show()
+    }
+
+    private fun deleteAllProductsFromFolder(
+        folderId: Int
+    ) {
+
+        product.forEach {
+            if (it.folderId == folderId) {
+                folderViewModel.deleteAppProducts(it)
+            }
+        }
+
     }
 }
 

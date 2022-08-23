@@ -3,6 +3,7 @@ package com.vytivskyi.salesmanhelper.view.fragments
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
@@ -43,10 +44,12 @@ class ListProducts : Fragment() {
         productsAdaptor.showMenuDelete = ::showMenuDelete
         binding.floatingActionButtonAddProduct.setOnClickListener {
             val action =
-                ListProductsDirections.actionListFragmentToAddFragment(folderId = args.folderId)
+                ListProductsDirections.actionListFragmentToAddFragment(folderId = args.folderId, null)
             binding.root.findNavController().navigate(action)
         }
         initObserver()
+
+        Log.d("color", "${args.barcode}")
         return binding.root
     }
 
@@ -81,7 +84,7 @@ class ListProducts : Fragment() {
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    val action = ListProductsDirections.actionListOfProductsToListFoldersFragment()
+                    val action = ListProductsDirections.actionListOfProductsToListFolders2()
                     findNavController().navigate(action)
                 }
             }
@@ -96,6 +99,8 @@ class ListProducts : Fragment() {
             productsAdaptor.productList = it.map { products ->
                 products.products
             }.flatten()
+
+            productsAdaptor.barcode = args.barcode
 
             binding.productRcyclerView.layoutManager = LinearLayoutManager(context)
         }

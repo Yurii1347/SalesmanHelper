@@ -18,12 +18,13 @@ class BarcodeAnalyzer(private val barcodeListener: BarcodeListener) : ImageAnaly
         if (mediaImage != null) {
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
             // Pass image to the scanner and have it do its thing
-            scanner.process(image)
+             scanner.process(image)
                 .addOnSuccessListener { barcodes ->
                     // Task completed successfully
                     for (barcode in barcodes) {
-                        barcodeListener(barcode.rawValue ?: "")
+                       barcodeListener(barcode.rawValue)
                     }
+
                 }
                 .addOnFailureListener {
                     // You should really do something about Exceptions

@@ -1,5 +1,6 @@
 package com.vytivskyi.salesmanhelper.view.adaptors
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
             field = value
             notifyDataSetChanged()
         }
+
+    var barcode: String? = null
 
     var showMenuDelete: (Boolean) -> Unit = {}
 
@@ -74,6 +77,13 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
                 holder.itemView.findNavController().navigate(action)
             }
         }
+
+        barcode?.let {
+            if (item.barcode == it) {
+                holder.binding.recyclerProductsTitle.setBackgroundColor(Color.GREEN)
+            }
+            else holder.binding.cardView.setBackgroundColor(Color.WHITE)
+        }
     }
 
     private fun selectItem(holder: ProductsAdaptor.ViewHolder, item: Product, position: Int) {
@@ -91,9 +101,10 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
 
     fun deleteSelectedItem(productsViewModel: ProductsViewModel) {
         if (itemSelectedList.isNotEmpty()) {
-            itemSelectedList.forEach {
-                productsViewModel.deleteProduct(productList[itemSelectedList.indexOf(it)])
+            for (i in itemSelectedList) {
+                productsViewModel.deleteProduct(productList[i])
             }
+
             isEnable = false
             itemSelectedList.clear()
         }

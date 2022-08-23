@@ -14,13 +14,17 @@ import kotlinx.coroutines.launch
 class FolderViewModel(application: Application) : AndroidViewModel(application) {
 
     val allFolders: LiveData<MutableList<Folder>>
+    val allProducts: LiveData<MutableList<Product>>
+
     private val repository: FolderRepository
+
 
     init {
         val folderDao = FolderRoomDatabase.getDatabase(application.applicationContext).folderDao()
         repository = FolderRepository(folderDao)
 
         allFolders = repository.allFolders
+        allProducts = repository.allProducts
 
     }
 
@@ -33,6 +37,9 @@ class FolderViewModel(application: Application) : AndroidViewModel(application) 
     }
     fun updateFolder(folder: Folder) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateFolder(folder)
+    }
+    fun deleteAppProducts(product: Product) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteAllProducts(product)
     }
 
 

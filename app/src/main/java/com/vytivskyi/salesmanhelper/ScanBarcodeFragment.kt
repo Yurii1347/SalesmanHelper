@@ -1,6 +1,7 @@
 package com.vytivskyi.salesmanhelper
 
 import android.Manifest.permission.CAMERA
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -8,35 +9,45 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.vytivskyi.salesmanhelper.databinding.FragmentScanBarcodeBinding
 import com.vytivskyi.salesmanhelper.model.BarcodeAnalyzer
-import com.vytivskyi.salesmanhelper.viewmodel.ScanBarcodeViewModel
+import com.vytivskyi.salesmanhelper.model.room.entity.Product
+import com.vytivskyi.salesmanhelper.viewmodel.FolderViewModel
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
-typealias BarcodeListener = (barcode: String) -> Unit
+typealias BarcodeListener = (barcode: String?) -> Unit
 
 class ScanBarcodeFragment : Fragment() {
 
+    companion object {
+        private val REQUIRED_PERMISSIONS = arrayOf(CAMERA)
+        private const val REQUEST_CODE_PERMISSIONS = 10
+    }
+
     private lateinit var binding: FragmentScanBarcodeBinding
 
-    private var processingBarcode = AtomicBoolean(false)
     private lateinit var cameraExecutor: ExecutorService
-    private lateinit var scanBarcodeViewModel: ScanBarcodeViewModel
+
+    private lateinit var folderViewModel: FolderViewModel
+    private lateinit var barcode: String
+    private var product: List<Product>? = null
+
+    private var processingBarcode = AtomicBoolean(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cameraExecutor = Executors.newSingleThreadExecutor()
-        scanBarcodeViewModel = ViewModelProvider(this)[ScanBarcodeViewModel::class.java]
+
     }
 
     override fun onCreateView(
@@ -46,24 +57,21 @@ class ScanBarcodeFragment : Fragment() {
     ): View? {
         binding = FragmentScanBarcodeBinding.inflate(inflater)
 
-        scanBarcodeViewModel.progressState.observe(viewLifecycleOwner) {
-            binding.fragmentScanBarcodeProgressBar.visibility = if (it) View.VISIBLE else View.GONE
+        folderViewModel = FolderViewModel(requireActivity().application)
+        folderViewModel.allProducts.observe(viewLifecycleOwner) {
+
+            this.product = it
         }
 
-        scanBarcodeViewModel.navigation.observe(viewLifecycleOwner) { navDirections ->
-            navDirections?.let {
-                findNavController().navigate(navDirections)
-                scanBarcodeViewModel.doneNavigating()
-            }
-        }
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         if (allPermissionsGranted()) {
+
             startCamera()
+
         } else {
             requestPermissions(
                 REQUIRED_PERMISSIONS,
@@ -78,41 +86,32 @@ class ScanBarcodeFragment : Fragment() {
     }
 
     private fun startCamera() {
-        // Create an instance of the ProcessCameraProvider,
-        // which will be used to bind the use cases to a lifecycle owner.
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
-        // Add a listener to the cameraProviderFuture.
-        // The first argument is a Runnable, which will be where the magic actually happens.
-        // The second argument (way down below) is an Executor that runs on the main thread.
         cameraProviderFuture.addListener({
-            // Add a ProcessCameraProvider, which binds the lifecycle of your camera to
-            // the LifecycleOwner within the application's life.
+
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-            // Initialize the Preview object, get a surface provider from your PreviewView,
-            // and set it on the preview instance.
+
             val preview = Preview.Builder().build().also {
                 it.setSurfaceProvider(
                     binding.fragmentScanBarcodePreviewView.surfaceProvider
                 )
             }
-            // Setup the ImageAnalyzer for the ImageAnalysis use case
             val imageAnalysis = ImageAnalysis.Builder()
                 .build()
                 .also {
-                    it.setAnalyzer(cameraExecutor, BarcodeAnalyzer { barcode ->
+                    it.setAnalyzer(cameraExecutor, BarcodeAnalyzer { result ->
                         if (processingBarcode.compareAndSet(false, true)) {
-                            searchBarcode(barcode)
+                            barcode = result ?: " "
+                            Log.d("barcode", "$barcode")
+                            openProductWithBarcode(product)
                         }
                     })
                 }
 
-            // Select back camera
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             try {
-                // Unbind any bound use cases before rebinding
                 cameraProvider.unbindAll()
-                // Bind use cases to lifecycleOwner
                 cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
             } catch (e: Exception) {
                 Log.e("PreviewUseCase", "Binding failed! :(", e)
@@ -144,17 +143,60 @@ class ScanBarcodeFragment : Fragment() {
         }
     }
 
-    private fun searchBarcode(barcode: String) {
-        scanBarcodeViewModel.searchBarcode(barcode)
-    }
-
     override fun onDestroy() {
         cameraExecutor.shutdown()
         super.onDestroy()
     }
 
-    companion object {
-        private val REQUIRED_PERMISSIONS = arrayOf(CAMERA)
-        private const val REQUEST_CODE_PERMISSIONS = 10
+    private fun openProductWithBarcode(product: List<Product>?) {
+        product?.forEach {
+            if (it.barcode == barcode && findNavController().currentDestination?.id
+                == R.id.barcodeSacanner
+            ) {
+                val action =
+                    ScanBarcodeFragmentDirections.actionBarcodeSacannerToListOfProducts(
+                        it.folderId,
+                        barcode
+                    )
+                findNavController().navigate(action)
+            }
+        }
+        openFoldersForAddingNewProduct()
+    }
+
+    private fun openFoldersForAddingNewProduct() {
+        if (findNavController().currentDestination?.id == R.id.barcodeSacanner) {
+            val dialogBuilder = AlertDialog.Builder(requireActivity())
+            dialogBuilder
+                .setTitle(R.string.create)
+                .setMessage(R.string.create_folder_message)
+                .setPositiveButton(
+                    R.string.create,
+                    DialogInterface.OnClickListener { _, _ ->
+                        if (findNavController().currentDestination?.id == R.id.barcodeSacanner) {
+                            val action =
+                                ScanBarcodeFragmentDirections.actionBarcodeSacannerToChooseFolderForProduct(
+                                    barcode
+                                )
+                            findNavController().navigate(action)
+                        }
+                    })
+                .setNegativeButton(
+
+                    "Cancel",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        if (findNavController().currentDestination?.id == R.id.barcodeSacanner) {
+                            val action =
+                                ScanBarcodeFragmentDirections.actionBarcodeSacannerToListFoldersFragment()
+                            findNavController().navigate(action)
+                        }
+                    })
+            dialogBuilder.create().show()
+
+        }
     }
 }
+
+
+
+

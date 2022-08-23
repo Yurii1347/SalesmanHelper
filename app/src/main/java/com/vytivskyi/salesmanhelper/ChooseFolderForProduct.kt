@@ -1,30 +1,27 @@
-package com.vytivskyi.salesmanhelper.view.fragments
+package com.vytivskyi.salesmanhelper
 
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.vytivskyi.salesmanhelper.R
 import com.vytivskyi.salesmanhelper.databinding.DialogAddFolderBinding
-import com.vytivskyi.salesmanhelper.databinding.FragmentListFoldersBinding
+import com.vytivskyi.salesmanhelper.databinding.FragmentChooseFolderForProductBinding
 import com.vytivskyi.salesmanhelper.model.room.entity.Folder
-import com.vytivskyi.salesmanhelper.model.room.entity.Product
 import com.vytivskyi.salesmanhelper.view.adaptors.FolderAdaptor
 import com.vytivskyi.salesmanhelper.viewmodel.FolderViewModel
-import com.vytivskyi.salesmanhelper.viewmodel.ProductsViewModel
 
+class ChooseFolderForProduct : Fragment() {
 
-class ListFolders : Fragment() {
+    private val args: ChooseFolderForProductArgs by navArgs()
 
-    private lateinit var binding: FragmentListFoldersBinding
+    private lateinit var binding: FragmentChooseFolderForProductBinding
 
     private lateinit var folderViewModel: FolderViewModel
     private lateinit var mAdaptor: FolderAdaptor
@@ -33,62 +30,37 @@ class ListFolders : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentListFoldersBinding.inflate(inflater)
+
+        binding = FragmentChooseFolderForProductBinding.inflate(inflater)
 
         folderViewModel = FolderViewModel(this.requireActivity().application)
-
         mAdaptor = FolderAdaptor(requireContext(), folderViewModel)
-        mAdaptor.mItemClickListener = ::onClickFolder
+        mAdaptor.mFolderClickListener =::onClickOnFolder
 
-        observerOfFolders()
+        observerFolders()
 
-        binding.btAddFolder.setOnClickListener {
+        binding.addFolder.setOnClickListener{
             addFolder()
-        }
-
-        binding.imageView2.setOnClickListener {
-
-            val action = ListFoldersDirections.actionListFoldersFragmentToBarcodeSacanner()
-            findNavController().navigate(action)
-
         }
 
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-    }
-
-    private fun observerOfFolders() {
+    private fun observerFolders() {
         folderViewModel.allFolders.observe(viewLifecycleOwner) { folders ->
+            // Update the cached copy of the words in the adapter.
             folders.let {
                 mAdaptor.folder = it
-                binding.recyclerView.adapter = mAdaptor
-                binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
+                binding.chooseFolderRecycler.adapter = mAdaptor
+                binding.chooseFolderRecycler.layoutManager = GridLayoutManager(requireContext(), 1)
             }
-        }
-        folderViewModel.allProducts.observe(viewLifecycleOwner) { products ->
-            products.let {
-                mAdaptor.product = it
-            }
-
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    activity?.moveTaskToBack(true)
-                    activity?.finish()
-                }
-            }
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            callback
-        )
+    private fun onClickOnFolder(folder: Folder) {
+        val action =
+            ChooseFolderForProductDirections.actionChooseFolderForProductToAddFragment(folder.folderId, args.barcode)
+        findNavController().navigate(action)
     }
 
     private fun addFolder() {
@@ -121,12 +93,5 @@ class ListFolders : Fragment() {
             dialogBuilder.create().show()
         }
     }
-
-    private fun onClickFolder(folder: Folder) {
-        val action =
-            ListFoldersDirections.actionListFoldersFragmentToListFragment(folder.folderId, null)
-        findNavController().navigate(action)
-    }
-
 
 }

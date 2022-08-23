@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/list_Folders_Fragment">
+    app:startDestination="@id/list_Folders">
 
     <fragment
         android:id="@+id/ListOfProducts"
@@ -19,9 +19,13 @@
         <action
             android:id="@+id/action_listFragment_to_updateFragment"
             app:destination="@id/updateFragment" />
+        <argument
+            android:name="barcode"
+            app:argType="string"
+            app:nullable="true" />
         <action
-            android:id="@+id/action_ListOfProducts_to_list_Folders_Fragment"
-            app:destination="@id/list_Folders_Fragment" />
+            android:id="@+id/action_ListOfProducts_to_list_Folders2"
+            app:destination="@id/list_Folders" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -34,6 +38,10 @@
         <argument
             android:name="folderId"
             app:argType="integer" />
+        <argument
+            android:name="barcode"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/updateFragment"
@@ -48,7 +56,7 @@
             app:argType="com.vytivskyi.salesmanhelper.model.room.entity.Product" />
     </fragment>
     <fragment
-        android:id="@+id/list_Folders_Fragment"
+        android:id="@+id/list_Folders"
         android:name="com.vytivskyi.salesmanhelper.view.fragments.ListFolders"
         android:label="fragment_list__folders_"
         tools:layout="@layout/fragment_list__folders_" >
@@ -65,16 +73,25 @@
         android:label="fragment_barcode_sacanner"
         tools:layout="@layout/fragment_scan_barcode" >
         <action
-            android:id="@+id/action_barcodeSacanner_to_successFragment"
-            app:destination="@id/successFragment" />
+            android:id="@+id/action_barcodeSacanner_to_ListOfProducts"
+            app:destination="@id/ListOfProducts" />
+        <action
+            android:id="@+id/action_barcodeSacanner_to_chooseFolderForProduct"
+            app:destination="@id/chooseFolderForProduct" />
+        <action
+            android:id="@+id/action_barcodeSacanner_to_list_Folders_Fragment"
+            app:destination="@id/list_Folders" />
     </fragment>
     <fragment
-        android:id="@+id/successFragment"
-        android:name="com.vytivskyi.salesmanhelper.SuccessFragment"
-        android:label="fragment_success"
-        tools:layout="@layout/fragment_success" >
+        android:id="@+id/chooseFolderForProduct"
+        android:name="com.vytivskyi.salesmanhelper.ChooseFolderForProduct"
+        android:label="fragment_choose_folder_for_product"
+        tools:layout="@layout/fragment_choose_folder_for_product" >
         <argument
             android:name="barcode"
             app:argType="string" />
+        <action
+            android:id="@+id/action_chooseFolderForProduct_to_addFragment"
+            app:destination="@id/addFragment" />
     </fragment>
 </navigation>
