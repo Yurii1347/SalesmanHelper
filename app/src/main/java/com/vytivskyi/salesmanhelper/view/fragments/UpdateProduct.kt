@@ -68,6 +68,7 @@ class UpdateProduct : Fragment() {
         val title = updateTitle.text
         val price = updatePrice.text
         val number = updateNumber.text
+        val barcode = updateBarcode.text
 
         if (inputCheck(title, price, number)) {
             val updatedProduct = Product(
@@ -76,14 +77,14 @@ class UpdateProduct : Fragment() {
                 price = price.toString().toInt(),
                 number = number.toString().toInt(),
                 folderId = args.product.folderId,
-                barcode = null
+                barcode = barcode.toString(),
             )
             productsViewModel.updateProduct(updatedProduct)
 
             val action =
                 UpdateProductDirections.actionUpdateFragmentToListFragment(
                     folderId = args.product.folderId,
-                    null
+                    null,
                 )
             binding.root.findNavController().navigate(action)
 

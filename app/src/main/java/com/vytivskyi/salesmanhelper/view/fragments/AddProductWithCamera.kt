@@ -1,4 +1,4 @@
-package com.vytivskyi.salesmanhelper
+package com.vytivskyi.salesmanhelper.view.fragments
 
 import android.Manifest.permission.CAMERA
 import android.content.DialogInterface
@@ -16,10 +16,10 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
-import com.vytivskyi.salesmanhelper.databinding.FragmentScanBarcodeBinding
+import com.vytivskyi.salesmanhelper.R
+import com.vytivskyi.salesmanhelper.ScanBarcodeFragmentDirections
+import com.vytivskyi.salesmanhelper.databinding.FragmentAddProductWithCameraBinding
 import com.vytivskyi.salesmanhelper.model.BarcodeAnalyzer
 import com.vytivskyi.salesmanhelper.model.room.entity.Product
 import com.vytivskyi.salesmanhelper.viewmodel.FolderViewModel
@@ -27,16 +27,14 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
-typealias BarcodeListener = (barcode: String?) -> Unit
-
-class ScanBarcodeFragment : Fragment() {
+class AddProductWithCamera : Fragment() {
 
     companion object {
         private val REQUIRED_PERMISSIONS = arrayOf(CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
-    private lateinit var binding: FragmentScanBarcodeBinding
+    private lateinit var binding: FragmentAddProductWithCameraBinding
 
     private lateinit var cameraExecutor: ExecutorService
 
@@ -57,7 +55,7 @@ class ScanBarcodeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentScanBarcodeBinding.inflate(inflater)
+        binding = FragmentAddProductWithCameraBinding.inflate(inflater)
 
         folderViewModel = FolderViewModel(requireActivity().application)
         folderViewModel.allProducts.observe(viewLifecycleOwner) {
@@ -152,16 +150,17 @@ class ScanBarcodeFragment : Fragment() {
 
         val product = products?.firstOrNull {
             it.barcode == barcode &&
-                    findNavController().currentDestination?.id == R.id.barcodeSacanner
+                    findNavController().currentDestination?.id == R.id.addProductWithCamera
 
         }
         Log.d("tag", "$product")
         if (product != null) {
             val action =
-                ScanBarcodeFragmentDirections.actionBarcodeSacannerToListOfProducts(
+                AddProductWithCameraDirections.actionAddProductWithCameraToListOfProducts2(
                     product.folderId,
                     barcode
                 )
+            Toast.makeText(requireContext(), "This product already exist", Toast.LENGTH_SHORT ).show()
             findNavController().navigate(action)
         } else {
             openFoldersForAddingNewProduct()
@@ -169,17 +168,17 @@ class ScanBarcodeFragment : Fragment() {
     }
 
     private fun openFoldersForAddingNewProduct() {
-        if (findNavController().currentDestination?.id == R.id.barcodeSacanner) {
+        if (findNavController().currentDestination?.id == R.id.addProductWithCamera) {
             val dialogBuilder = AlertDialog.Builder(requireActivity())
             dialogBuilder
                 .setTitle(R.string.create)
-                .setMessage(R.string.dialog_create_new_product_from_scanner)
+                .setMessage(R.string.choose_folder_for_adding_product)
                 .setPositiveButton(
-                    R.string.create,
+                    R.string.choose,
                     DialogInterface.OnClickListener { _, _ ->
-                        if (findNavController().currentDestination?.id == R.id.barcodeSacanner) {
+                        if (findNavController().currentDestination?.id == R.id.addProductWithCamera) {
                             val action =
-                                ScanBarcodeFragmentDirections.actionBarcodeSacannerToChooseFolderForProduct(
+                                AddProductWithCameraDirections.actionAddProductWithCameraToChooseFolderForProduct(
                                     barcode
                                 )
                             findNavController().navigate(action)
@@ -188,13 +187,7 @@ class ScanBarcodeFragment : Fragment() {
                 .setNegativeButton(
 
                     "Cancel",
-                    DialogInterface.OnClickListener { dialog, which ->
-                        if (findNavController().currentDestination?.id == R.id.barcodeSacanner) {
-                            val action =
-                                ScanBarcodeFragmentDirections.actionBarcodeSacannerToListFoldersFragment()
-                            findNavController().navigate(action)
-                        }
-                    })
+                    DialogInterface.OnClickListener { dialog, which -> })
             dialogBuilder.create().show()
 
         }

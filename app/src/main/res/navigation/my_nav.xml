@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_ListOfProducts_to_list_Folders2"
             app:destination="@id/list_Folders" />
+        <action
+            android:id="@+id/action_ListOfProducts_to_addProductWithCamera"
+            app:destination="@id/addProductWithCamera" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -93,5 +96,20 @@
         <action
             android:id="@+id/action_chooseFolderForProduct_to_addFragment"
             app:destination="@id/addFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProductWithCamera"
+        android:name="com.vytivskyi.salesmanhelper.view.fragments.AddProductWithCamera"
+        android:label="fragment_add_product_with_camera"
+        tools:layout="@layout/fragment_add_product_with_camera" >
+        <action
+            android:id="@+id/action_addProductWithCamera_to_addFragment"
+            app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_addProductWithCamera_to_ListOfProducts2"
+            app:destination="@id/ListOfProducts" />
+        <action
+            android:id="@+id/action_addProductWithCamera_to_chooseFolderForProduct"
+            app:destination="@id/chooseFolderForProduct" />
     </fragment>
 </navigation>

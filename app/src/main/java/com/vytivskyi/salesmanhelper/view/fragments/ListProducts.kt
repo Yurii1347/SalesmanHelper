@@ -47,6 +47,11 @@ class ListProducts : Fragment() {
                 ListProductsDirections.actionListFragmentToAddFragment(folderId = args.folderId, null)
             binding.root.findNavController().navigate(action)
         }
+        binding.scanNewProduct.setOnClickListener{
+            val action =
+                ListProductsDirections.actionListOfProductsToAddProductWithCamera()
+            binding.root.findNavController().navigate(action)
+        }
         initObserver()
 
         return binding.root

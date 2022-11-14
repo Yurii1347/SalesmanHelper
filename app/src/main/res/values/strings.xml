@@ -15,6 +15,7 @@
     <string name="amount">Amount</string>
     <string name="barcode">Barcode (optional)</string>
     <string name="add">Add new product</string>
+    <string name="choose">Choose</string>
 
     <string name="hint_search">Enter the barcode or title of product</string>
 
@@ -33,6 +34,7 @@
     <string name="list_folders_fragment">List folders</string>
     <string name="add_folder_fragment">Add new folder</string>
     <string name="edit_folder_fragment">Edit current folder</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="choose_folder_for_adding_product">Choose folder for saving product</string>
+
 </resources>

@@ -20,13 +20,14 @@
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/dialog_add_folder.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/dialog_edit_folder.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_add.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_add_product_with_camera.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_choose_folder_for_product.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_edit_folder.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_list.xml" value="0.33" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_list2.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_list__folders_.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_question_of_adding_new_product.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_scan_barcode.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_scan_barcode.xml" value="0.5" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_success.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_update.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/recycler_view_item.xml" value="0.36666666666666664" />
