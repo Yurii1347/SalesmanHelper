@@ -12,12 +12,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import com.vytivskyi.salesmanhelper.databinding.FragmentScanBarcodeBinding
 import com.vytivskyi.salesmanhelper.model.BarcodeAnalyzer
@@ -99,6 +98,9 @@ class ScanBarcodeFragment : Fragment() {
                 )
             }
             val imageAnalysis = ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_BLOCK_PRODUCER)
+                .setImageQueueDepth(10)
+                .setOutputImageFormat(OUTPUT_IMAGE_FORMAT_YUV_420_888)
                 .build()
                 .also {
                     it.setAnalyzer(cameraExecutor, BarcodeAnalyzer { result ->
@@ -153,9 +155,7 @@ class ScanBarcodeFragment : Fragment() {
         val product = products?.firstOrNull {
             it.barcode == barcode &&
                     findNavController().currentDestination?.id == R.id.barcodeSacanner
-
         }
-        Log.d("tag", "$product")
         if (product != null) {
             val action =
                 ScanBarcodeFragmentDirections.actionBarcodeSacannerToListOfProducts(

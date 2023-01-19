@@ -10,6 +10,7 @@ import com.vytivskyi.salesmanhelper.R
 import com.vytivskyi.salesmanhelper.databinding.RecyclerViewProductsBinding
 import com.vytivskyi.salesmanhelper.model.room.entity.Product
 import com.vytivskyi.salesmanhelper.view.fragments.ListProductsDirections
+import com.vytivskyi.salesmanhelper.view.fragments.SearchAllProductsFragmentDirections
 import com.vytivskyi.salesmanhelper.viewmodel.ProductsViewModel
 
 class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
@@ -72,17 +73,26 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
             } else if (isEnable) {
                 selectItem(holder, item, position)
             } else {
-                val action =
-                    ListProductsDirections.actionListFragmentToUpdateFragment(productList[position])
-                holder.itemView.findNavController().navigate(action)
+                try {
+                    val action =
+                        ListProductsDirections.actionListFragmentToUpdateFragment(productList[position])
+                    holder.itemView.findNavController().navigate(action)
+                } catch (e: Exception) {
+                    val action =
+                        SearchAllProductsFragmentDirections.actionSearchAllProductsFragmentToUpdateFragment(
+                            productList[position]
+                        )
+                    holder.itemView.findNavController().navigate(action)
+                }
+
+
             }
         }
 
         barcode?.let {
             if (item.barcode == it) {
                 holder.binding.recyclerProductsTitle.setBackgroundColor(Color.GREEN)
-            }
-            else holder.binding.recyclerProductsTitle.setBackgroundColor(Color.WHITE)
+            } else holder.binding.recyclerProductsTitle.setBackgroundColor(Color.WHITE)
         }
     }
 

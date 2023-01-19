@@ -64,6 +64,7 @@ class AddProduct : Fragment() {
         val name = binding.addName.text.toString()
         val price = binding.addPrice.text
         val number = binding.addNumber.text
+        val barcode = binding.addBarcode.text.toString()
 
         if (inputCheck(name, price, number)) {
             val product = Product(
@@ -72,7 +73,7 @@ class AddProduct : Fragment() {
                 Integer.parseInt(price.toString()),
                 Integer.parseInt(number.toString()),
                 args.folderId,
-                barcode = args.barcode
+                barcode = barcode
             )
             productsViewModel.addProduct(product)
             Toast.makeText(requireContext(), "Successful", Toast.LENGTH_SHORT).show()

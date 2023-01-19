@@ -57,6 +57,12 @@ class ListFoldersFragment : Fragment() {
 
         }
 
+        binding.searchByWrite.setOnClickListener {
+            val action =
+                ListFoldersFragmentDirections.actionListFoldersToSearchAllProductsFragment()
+            findNavController().navigate(action)
+        }
+
         return binding.root
     }
 

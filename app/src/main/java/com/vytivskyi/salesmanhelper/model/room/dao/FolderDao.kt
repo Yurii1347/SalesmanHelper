@@ -38,4 +38,7 @@ interface FolderDao {
 
     @Query("SELECT * FROM folder")
     fun getAllFoldersWithProducts(): LiveData<List<FolderWithProducts>>
+
+    @Query("SELECT * FROM product WHERE title LIKE :searchQuery OR barcode LIKE :searchQuery")
+    fun searchDatabase(searchQuery: String): LiveData<List<Product>>
 }

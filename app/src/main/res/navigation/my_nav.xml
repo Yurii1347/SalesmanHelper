@@ -69,6 +69,9 @@
         <action
             android:id="@+id/action_list_Folders_Fragment_to_barcodeSacanner"
             app:destination="@id/barcodeSacanner" />
+        <action
+            android:id="@+id/action_list_Folders_to_search_all_products_fragment"
+            app:destination="@id/search_all_products_fragment" />
     </fragment>
     <fragment
         android:id="@+id/barcodeSacanner"
@@ -111,5 +114,14 @@
         <action
             android:id="@+id/action_addProductWithCamera_to_chooseFolderForProduct"
             app:destination="@id/chooseFolderForProduct" />
+    </fragment>
+    <fragment
+        android:id="@+id/search_all_products_fragment"
+        android:name="com.vytivskyi.salesmanhelper.view.fragments.SearchAllProductsFragment"
+        android:label="fragment_search_all_products_fragment"
+        tools:layout="@layout/fragment_search_all_products" >
+        <action
+            android:id="@+id/action_search_all_products_fragment_to_updateFragment"
+            app:destination="@id/updateFragment" />
     </fragment>
 </navigation>

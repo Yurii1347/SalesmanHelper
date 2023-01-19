@@ -34,17 +34,19 @@ class FolderViewModel(application: Application) : AndroidViewModel(application) 
     fun deleteFolder(folder: FolderWithProducts) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteFolder(folder.folder)
         folder.products.forEach {
-            deleteAppProducts(it)
+            deleteAllProducts(it)
         }
     }
 
     fun updateFolder(folder: Folder) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateFolder(folder)
     }
-
-    private fun deleteAppProducts(product: Product) = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteAllProducts(product)
+    fun searchDatabase(searchQuery: String): LiveData<List<Product>> {
+        return repository.searchDatabase(searchQuery)
     }
 
+    private fun deleteAllProducts(product: Product) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteAllProducts(product)
+    }
 
 }

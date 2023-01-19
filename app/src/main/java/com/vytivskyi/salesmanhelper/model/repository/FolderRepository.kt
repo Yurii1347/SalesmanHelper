@@ -26,5 +26,8 @@ class FolderRepository(private val folderDao: FolderDao) {
     suspend fun deleteAllProducts(product: Product) {
         folderDao.deleteProduct(product)
     }
+    fun searchDatabase(searchQuery: String): LiveData<List<Product>> {
+        return folderDao.searchDatabase(searchQuery)
+    }
 
 }

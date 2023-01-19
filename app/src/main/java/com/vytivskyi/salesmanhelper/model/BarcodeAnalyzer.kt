@@ -13,7 +13,7 @@ class BarcodeAnalyzer(private val barcodeListener: BarcodeListener) : ImageAnaly
 
     private val options = BarcodeScannerOptions.Builder()
         .setBarcodeFormats(
-        Barcode.FORMAT_UPC_A,)
+        Barcode.FORMAT_ALL_FORMATS,)
         .build()
 
     private val scanner = BarcodeScanning.getClient(options)

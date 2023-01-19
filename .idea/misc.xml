@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/custom_input.xml" value="0.149" />
+        <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_barcode.xml" value="0.164" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.149" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.1255" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.149" />
@@ -14,7 +15,9 @@
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.149" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.149" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.149" />
+        <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.164" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/ic_new_folder_24.xml" value="0.1255" />
+        <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/drawable/searchview_background.xml" value="0.164" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/activity_products.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/dialog_add_folder.xml" value="0.36666666666666664" />
@@ -28,6 +31,8 @@
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_list__folders_.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_question_of_adding_new_product.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_scan_barcode.xml" value="0.5" />
+        <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_search_all_products.xml" value="0.33" />
+        <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_search_all_products_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_success.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/fragment_update.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/banan/AndroidStudioProjects/SalesmanHelper2/app/src/main/res/layout/recycler_view_item.xml" value="0.36666666666666664" />
