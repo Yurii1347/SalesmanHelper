@@ -50,9 +50,9 @@ class ListFoldersFragment : Fragment() {
             addFolder()
         }
 
-        binding.imageView2.setOnClickListener {
+        binding.barcodeScanner.setOnClickListener {
 
-            val action = ListFoldersFragmentDirections.actionListFoldersFragmentToBarcodeSacanner()
+            val action = ListFoldersFragmentDirections.actionListFoldersToScanBarcodeFragment()
             findNavController().navigate(action)
 
         }

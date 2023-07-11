@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_ListOfProducts_to_addProductWithCamera"
             app:destination="@id/addProductWithCamera" />
+        <action
+            android:id="@+id/action_ListOfProducts_to_ScanBarcodeFragment"
+            app:destination="@id/ScanBarcodeFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -67,26 +70,25 @@
             android:id="@+id/action_list_Folders_Fragment_to_listFragment"
             app:destination="@id/ListOfProducts" />
         <action
-            android:id="@+id/action_list_Folders_Fragment_to_barcodeSacanner"
-            app:destination="@id/barcodeSacanner" />
-        <action
             android:id="@+id/action_list_Folders_to_search_all_products_fragment"
             app:destination="@id/search_all_products_fragment" />
+        <action
+            android:id="@+id/action_list_Folders_to_ScanBarcodeFragment"
+            app:destination="@id/ScanBarcodeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/barcodeSacanner"
-        android:name="com.vytivskyi.salesmanhelper.ScanBarcodeFragment"
-        android:label="fragment_barcode_sacanner"
-        tools:layout="@layout/fragment_scan_barcode" >
-        <action
-            android:id="@+id/action_barcodeSacanner_to_ListOfProducts"
-            app:destination="@id/ListOfProducts" />
+        android:id="@+id/ScanBarcodeFragment"
+        android:name="com.vytivskyi.salesmanhelper.view.fragments.ScanBarcodeFragment"
+        android:label="fragment_barcode_sacanner">
         <action
             android:id="@+id/action_barcodeSacanner_to_chooseFolderForProduct"
             app:destination="@id/chooseFolderForProduct" />
         <action
             android:id="@+id/action_barcodeSacanner_to_list_Folders_Fragment"
             app:destination="@id/list_Folders" />
+        <action
+            android:id="@+id/action_ScanBarcodeFragment_to_ListOfProducts"
+            app:destination="@id/ListOfProducts" />
     </fragment>
     <fragment
         android:id="@+id/chooseFolderForProduct"

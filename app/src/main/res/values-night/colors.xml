@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Text -->
+    <color name="text_primary">@color/white</color>
+    <color name="text_secondary">@color/gray</color>
+
+</resources>

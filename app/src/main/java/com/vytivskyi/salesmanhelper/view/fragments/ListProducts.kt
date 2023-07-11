@@ -1,12 +1,11 @@
 package com.vytivskyi.salesmanhelper.view.fragments
 
+import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -44,10 +43,13 @@ class ListProducts : Fragment() {
         productsAdaptor.showMenuDelete = ::showMenuDelete
         binding.floatingActionButtonAddProduct.setOnClickListener {
             val action =
-                ListProductsDirections.actionListFragmentToAddFragment(folderId = args.folderId, null)
+                ListProductsDirections.actionListFragmentToAddFragment(
+                    folderId = args.folderId,
+                    null
+                )
             binding.root.findNavController().navigate(action)
         }
-        binding.scanNewProduct.setOnClickListener{
+        binding.scanNewProduct.setOnClickListener {
             val action =
                 ListProductsDirections.actionListOfProductsToAddProductWithCamera()
             binding.root.findNavController().navigate(action)
@@ -75,7 +77,7 @@ class ListProducts : Fragment() {
 
                 when (menuItem.itemId) {
                     R.id.Delete -> {
-                       deleteProducts()
+                        deleteProducts()
                     }
                 }
                 return true

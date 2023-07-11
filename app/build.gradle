@@ -69,10 +69,6 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.1"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.1"
 
-    //Koin components
-    implementation 'io.insert-koin:koin-core:3.2.0'
-    implementation 'io.insert-koin:koin-android:3.2.0'
-
     // Room components
     implementation 'androidx.room:room-ktx:2.5.0'
     implementation 'androidx.room:room-common:2.5.0'

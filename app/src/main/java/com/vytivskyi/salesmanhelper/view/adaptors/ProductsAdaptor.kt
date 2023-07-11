@@ -23,6 +23,7 @@ class ProductsAdaptor : RecyclerView.Adapter<ProductsAdaptor.ViewHolder>() {
     var barcode: String? = null
 
     var showMenuDelete: (Boolean) -> Unit = {}
+    var searchedElement: (Int) -> Unit = {}
 
     private var isEnable = false
     val itemSelectedList: MutableSet<Int> = mutableSetOf()

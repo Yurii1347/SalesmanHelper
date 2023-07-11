@@ -4,75 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     tools:context=".view.fragments.UpdateProduct">
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/update_barcode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:ems="10"
         android:gravity="center"
         android:hint="@string/barcode"
         android:inputType="number"
-        android:textColor="#000000"
-        android:textColorHint="#686262"
         app:layout_constraintEnd_toEndOf="@+id/update_number"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/update_number"
-        app:layout_constraintTop_toBottomOf="@+id/update_number" />
+        app:layout_constraintTop_toBottomOf="@+id/update_number"
+        tools:ignore="TouchTargetSizeCheck" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/update_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
-        android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        android:textColor="#000000"
-        android:textColorHint="#686262"
         app:layout_constraintBottom_toTopOf="@+id/update_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.99"
+        tools:ignore="TouchTargetSizeCheck" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/update_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:ems="10"
         android:hint="Price"
         android:inputType="number"
         android:textAlignment="center"
-        android:textColor="#000000"
-        android:textColorHint="#686262"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="@+id/update_title"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/update_title" />
+        app:layout_constraintStart_toStartOf="@+id/update_title"
+        tools:ignore="TouchTargetSizeCheck" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/update_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:hint="Number"
         android:inputType="number"
         android:textAlignment="center"
-        android:textColor="#000000"
-        android:textColorHint="#686262"
         app:layout_constraintEnd_toEndOf="@+id/update_price"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/update_price"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/updateProduct"
@@ -89,19 +80,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.6" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="Change the value of product"
-        android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/update_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_baseline_no_photography_24"
+        app:layout_constraintBottom_toTopOf="@+id/update_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

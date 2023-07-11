@@ -18,8 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vytivskyi.salesmanhelper.R
-import com.vytivskyi.salesmanhelper.ScanBarcodeFragmentDirections
-import com.vytivskyi.salesmanhelper.databinding.FragmentAddProductWithCameraBinding
+import com.vytivskyi.salesmanhelper.databinding.FragmentScanBarcodeBinding
 import com.vytivskyi.salesmanhelper.model.BarcodeAnalyzer
 import com.vytivskyi.salesmanhelper.model.room.entity.Product
 import com.vytivskyi.salesmanhelper.viewmodel.FolderViewModel
@@ -34,7 +33,7 @@ class AddProductWithCamera : Fragment() {
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
-    private lateinit var binding: FragmentAddProductWithCameraBinding
+    private lateinit var binding: FragmentScanBarcodeBinding
 
     private lateinit var cameraExecutor: ExecutorService
 
@@ -55,7 +54,7 @@ class AddProductWithCamera : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAddProductWithCameraBinding.inflate(inflater)
+        binding = FragmentScanBarcodeBinding.inflate(inflater)
 
         folderViewModel = FolderViewModel(requireActivity().application)
         folderViewModel.allProducts.observe(viewLifecycleOwner) {
@@ -160,7 +159,8 @@ class AddProductWithCamera : Fragment() {
                     product.folderId,
                     barcode
                 )
-            Toast.makeText(requireContext(), "This product already exist", Toast.LENGTH_SHORT ).show()
+            Toast.makeText(requireContext(), "This product already exist", Toast.LENGTH_SHORT)
+                .show()
             findNavController().navigate(action)
         } else {
             openFoldersForAddingNewProduct()

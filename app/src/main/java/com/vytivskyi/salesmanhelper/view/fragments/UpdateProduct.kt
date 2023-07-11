@@ -2,6 +2,7 @@ package com.vytivskyi.salesmanhelper.view.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Environment
 import android.text.Editable
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -16,18 +17,24 @@ import androidx.navigation.fragment.navArgs
 import com.vytivskyi.salesmanhelper.databinding.FragmentUpdateBinding
 import com.vytivskyi.salesmanhelper.model.room.entity.Product
 import com.vytivskyi.salesmanhelper.viewmodel.ProductsViewModel
+import java.io.File
 
 class UpdateProduct : Fragment() {
     private lateinit var binding: FragmentUpdateBinding
     private lateinit var productsViewModel: ProductsViewModel
+    private val directory = File(Environment.getExternalStorageDirectory(), "ProductsPhoto")
 
-    private val args: UpdateProductArgs by navArgs()
+      private val args: UpdateProductArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentUpdateBinding.inflate(inflater)
+
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
 
         productsViewModel =
             ProductsViewModel(this.requireActivity().application, args.product.folderId)
@@ -65,10 +72,10 @@ class UpdateProduct : Fragment() {
     }
 
     private fun updateProduct() = with(binding) {
-        val title = updateTitle.text
-        val price = updatePrice.text
-        val number = updateNumber.text
-        val barcode = updateBarcode.text
+        val title = updateTitle.editableText
+        val price = updatePrice.editableText
+        val number = updateNumber.editableText
+        val barcode = updateBarcode.editableText
 
         if (inputCheck(title, price, number)) {
             val updatedProduct = Product(

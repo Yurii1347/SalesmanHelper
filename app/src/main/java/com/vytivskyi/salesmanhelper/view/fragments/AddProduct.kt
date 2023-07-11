@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.vytivskyi.salesmanhelper.databinding.FragmentAddBinding
 import com.vytivskyi.salesmanhelper.model.room.entity.Product
-import com.vytivskyi.salesmanhelper.view.adaptors.ProductsAdaptor
 import com.vytivskyi.salesmanhelper.viewmodel.ProductsViewModel
 
 class AddProduct : Fragment() {
@@ -34,12 +33,17 @@ class AddProduct : Fragment() {
             ProductsViewModel(this.requireActivity().application, folderId = args.folderId)
 
         if (args.barcode != null) {
-            binding.addBarcode.setText(args.barcode)
+            binding.addBarcode.text = args.barcode
         }
 
         binding.addProduct.setOnClickListener {
             insertProduct()
         }
+
+        binding.imageView2.setOnClickListener {
+            TODO()
+        }
+
         return binding.root
     }
 
@@ -62,8 +66,8 @@ class AddProduct : Fragment() {
     private fun insertProduct() {
 
         val name = binding.addName.text.toString()
-        val price = binding.addPrice.text
-        val number = binding.addNumber.text
+        val price = binding.addPrice.editableText
+        val number = binding.addNumber.editableText
         val barcode = binding.addBarcode.text.toString()
 
         if (inputCheck(name, price, number)) {

@@ -15,5 +15,5 @@ data class Product(
     val number: Int,
     val folderId: Int,
     var selector: Boolean = false,
-    val barcode: String?,
+    var barcode: String?,
     ): Parcelable

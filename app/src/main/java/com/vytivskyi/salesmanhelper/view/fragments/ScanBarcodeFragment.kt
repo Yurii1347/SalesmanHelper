@@ -1,6 +1,7 @@
-package com.vytivskyi.salesmanhelper
+package com.vytivskyi.salesmanhelper.view.fragments
 
 import android.Manifest.permission.CAMERA
+import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -9,15 +10,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import androidx.core.text.isDigitsOnly
 import androidx.navigation.fragment.findNavController
+import com.vytivskyi.salesmanhelper.R
 import com.vytivskyi.salesmanhelper.databinding.FragmentScanBarcodeBinding
 import com.vytivskyi.salesmanhelper.model.BarcodeAnalyzer
 import com.vytivskyi.salesmanhelper.model.room.entity.Product
@@ -26,9 +28,8 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
-typealias BarcodeListener = (barcode: String?) -> Unit
 
-class ScanBarcodeFragment : Fragment() {
+class ScanBarcodeFragment : androidx.fragment.app.Fragment() {
 
     companion object {
         private val REQUIRED_PERMISSIONS = arrayOf(CAMERA)
@@ -42,6 +43,7 @@ class ScanBarcodeFragment : Fragment() {
     private lateinit var folderViewModel: FolderViewModel
     private lateinit var barcode: String
     private var product: List<Product>? = null
+    private var camera: Camera? = null
 
     private var processingBarcode = AtomicBoolean(false)
 
@@ -78,6 +80,11 @@ class ScanBarcodeFragment : Fragment() {
                 REQUEST_CODE_PERMISSIONS
             )
         }
+
+        binding.ivFlashlight.setOnClickListener {
+            turnOnTheFlashlight()
+        }
+
     }
 
     override fun onResume() {
@@ -98,15 +105,21 @@ class ScanBarcodeFragment : Fragment() {
                 )
             }
             val imageAnalysis = ImageAnalysis.Builder()
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_BLOCK_PRODUCER)
-                .setImageQueueDepth(10)
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .setOutputImageFormat(OUTPUT_IMAGE_FORMAT_YUV_420_888)
                 .build()
                 .also {
                     it.setAnalyzer(cameraExecutor, BarcodeAnalyzer { result ->
-                        if (processingBarcode.compareAndSet(false, true)) {
-                            barcode = result ?: " "
-                            openProductWithBarcode(product)
+                        for (i in product?.map { it.barcode }!!) {
+                            if (i == result) {
+                                barcode = result ?: " "
+                                openProductWithBarcode(product)
+                                break
+                            } else barcode = result ?: " "
+                        }
+                        if (barcode == " " || barcode.isDigitsOnly()) {
+                            cameraExecutor.shutdown()
+                            openFoldersForAddingNewProduct()
                         }
                     })
                 }
@@ -114,11 +127,14 @@ class ScanBarcodeFragment : Fragment() {
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             try {
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis).also {
+                    camera = it
+                }
             } catch (e: Exception) {
                 Log.e("PreviewUseCase", "Binding failed! :(", e)
             }
         }, ContextCompat.getMainExecutor(requireContext()))
+
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
@@ -154,22 +170,20 @@ class ScanBarcodeFragment : Fragment() {
 
         val product = products?.firstOrNull {
             it.barcode == barcode &&
-                    findNavController().currentDestination?.id == R.id.barcodeSacanner
+                    findNavController().currentDestination?.id == R.id.ScanBarcodeFragment
         }
         if (product != null) {
             val action =
-                ScanBarcodeFragmentDirections.actionBarcodeSacannerToListOfProducts(
+                ScanBarcodeFragmentDirections.actionScanBarcodeFragmentToListOfProducts(
                     product.folderId,
                     barcode
                 )
             findNavController().navigate(action)
-        } else {
-            openFoldersForAddingNewProduct()
         }
     }
 
     private fun openFoldersForAddingNewProduct() {
-        if (findNavController().currentDestination?.id == R.id.barcodeSacanner) {
+        if (findNavController().currentDestination?.id == R.id.ScanBarcodeFragment) {
             val dialogBuilder = AlertDialog.Builder(requireActivity())
             dialogBuilder
                 .setTitle(R.string.create)
@@ -177,7 +191,7 @@ class ScanBarcodeFragment : Fragment() {
                 .setPositiveButton(
                     R.string.create,
                     DialogInterface.OnClickListener { _, _ ->
-                        if (findNavController().currentDestination?.id == R.id.barcodeSacanner) {
+                        if (findNavController().currentDestination?.id == R.id.ScanBarcodeFragment) {
                             val action =
                                 ScanBarcodeFragmentDirections.actionBarcodeSacannerToChooseFolderForProduct(
                                     barcode
@@ -189,7 +203,7 @@ class ScanBarcodeFragment : Fragment() {
 
                     "Cancel",
                     DialogInterface.OnClickListener { dialog, which ->
-                        if (findNavController().currentDestination?.id == R.id.barcodeSacanner) {
+                        if (findNavController().currentDestination?.id == R.id.ScanBarcodeFragment) {
                             val action =
                                 ScanBarcodeFragmentDirections.actionBarcodeSacannerToListFoldersFragment()
                             findNavController().navigate(action)
@@ -198,6 +212,10 @@ class ScanBarcodeFragment : Fragment() {
             dialogBuilder.create().show()
 
         }
+    }
+
+    private fun turnOnTheFlashlight() {
+        camera?.cameraControl?.enableTorch(true)
     }
 }
 

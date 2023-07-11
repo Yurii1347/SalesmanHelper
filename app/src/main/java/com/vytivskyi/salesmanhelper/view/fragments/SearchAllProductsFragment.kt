@@ -2,8 +2,8 @@ package com.vytivskyi.salesmanhelper.view.fragments
 
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -28,18 +28,21 @@ class SearchAllProductsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+
         binding = FragmentSearchAllProductsBinding.inflate(inflater)
 
         folderViewModel = FolderViewModel(this.requireActivity().application)
         productsViewModel = ProductsViewModel(this.requireActivity().application, 0)
         binding.allProductsRecycler.adapter = productsAdaptor
+
         productsAdaptor.showMenuDelete = ::showMenuDelete
+        productsAdaptor.searchedElement = ::searchedElement
 
         initObserver()
 
         binding.searchView.setOnQueryTextListener(object :
-            android.widget.SearchView.OnQueryTextListener {
+            SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.searchView.clearFocus()
                 if (query != null) {
@@ -121,6 +124,10 @@ class SearchAllProductsFragment : Fragment() {
                     productsAdaptor.productList = it
                 }
             }
+    }
+
+    private fun searchedElement(position: Int) {
+        binding.allProductsRecycler.scrollToPosition(position)
     }
 
 }

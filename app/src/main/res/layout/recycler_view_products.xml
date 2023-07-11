@@ -2,11 +2,9 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/productLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF"
     android:visibility="visible">
 
 
@@ -15,13 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:background="#FFFFFF"
-        android:elevation="1dp">
+        android:elevation="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/recyclerLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF"
+            android:layout_height="wrap_content"
             android:minHeight="10dp">
 
             <androidx.constraintlayout.widget.Guideline
@@ -53,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="number"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:text="price"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline11"
@@ -77,10 +74,9 @@
                 android:id="@+id/recycler_products_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#FFFEFE"
                 android:text="Name of product"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -93,7 +89,7 @@
                 android:layout_height="30dp"
                 android:text="1"
                 android:textAlignment="center"
-                android:textColor="#6E6666"
+                android:textColor="@color/text_secondary"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
